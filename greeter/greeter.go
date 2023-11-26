@@ -1,9 +1,13 @@
 package greeter
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func Greet(name string) string {
-	if len(name) == 0 {
+	cleanedName := strings.TrimSpace(name)
+	if len(cleanedName) == 0 {
 		return "Hello World!"
 	}
 	return fmt.Sprintf("Hello %s!", name)
