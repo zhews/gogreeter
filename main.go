@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -13,7 +14,9 @@ func main() {
 	app.Get("/", getGreeting)
 
 	const ADDRESS = ":8080"
-	app.Listen(ADDRESS)
+	if err := app.Listen(ADDRESS); err != nil {
+		log.Fatal("failed to listen on address", err)
+	}
 }
 
 func getGreeting(c *fiber.Ctx) error {
