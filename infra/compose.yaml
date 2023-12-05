@@ -2,7 +2,7 @@ version: "3"
 services:
   docker:
     image: "docker:dind"
-    hostname: docker
+    hostname: "docker"
     environment:
       - "DOCKER_TLS_CERTDIR=/certs"
     ports:
@@ -15,6 +15,8 @@ services:
     dns:
       - "9.9.9.9"
       - "1.1.1.1"
+    command:
+      - "--insecure-registry=nexus:8082"
   jenkins:
     build: "."
     hostname: jenkins
@@ -32,7 +34,19 @@ services:
       - "9.9.9.9"
       - "1.1.1.1"
     depends_on:
-      - docker
+      - "docker"
+  nexus:
+    image: "sonatype/nexus3"
+    hostname: "nexus"
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - "nexus-data:/nexus-data"
+    dns:
+      - "9.9.9.9"
+      - "1.1.1.1"
 volumes:
   jenkins-docker-certs: {}
   jenkins-data: {}
+  nexus-data: {}
