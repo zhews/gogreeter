@@ -24,8 +24,21 @@ pipeline {
 	    	}
 	    	stage("Container Build") {
 			steps {
-		    		sh "docker build -t gogreeter -f Containerfile ."
+		    		sh 'docker build -t nexus:8082/gogreeter:latest -t nexus:8082/gogreeter:$GIT_COMMIT -f Containerfile .'
 			}
 	    	}
+		stage("Container Push") {
+			when {
+				branch 'main'
+			}
+			environment {
+				NEXUS_CREDENTIALS = credentials("nexus-credentials")
+			}
+			steps {
+				sh 'echo $NEXUS_CREDENTIALS_PSW | docker login nexus:8082 -u $NEXUS_CREDENTIALS_USR --password-stdin'
+				sh "docker push nexus:8082/gogreeter:latest"
+				sh 'docker push nexus:8082/gogreeter:$GIT_COMMIT'
+			}
+		}
 	}
 }
