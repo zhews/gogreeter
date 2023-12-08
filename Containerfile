@@ -10,3 +10,4 @@ FROM gcr.io/distroless/static-debian12:nonroot AS run
 WORKDIR /run
 COPY --from=build /code/bin/gogreeter /run/gogreeter
 CMD ["/run/gogreeter"]
+EXPOSE 8080
