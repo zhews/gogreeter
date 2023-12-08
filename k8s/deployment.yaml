@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gogreeter
+  name: gogreeter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gogreeter
+  template:
+    metadata:
+      labels:
+        app: gogreeter
+    spec:
+      containers:
+        - image: localhost:8082/gogreeter:latest
+          imagePullPolicy: Never
+          name: gogreeter
+          ports:
+            - containerPort: 8080
