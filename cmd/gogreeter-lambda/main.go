@@ -12,7 +12,7 @@ import (
 
 func HandleRequest(ctx context.Context, event events.APIGatewayV2HTTPRequest) ([]byte, error) {
 	name := event.QueryStringParameters["name"]
-	greeting := greeter.Greet(name)
+	greeting := greeter.Greet(ctx, name)
 	output, err := json.Marshal(greeting)
 	if err != nil {
 		return nil, fmt.Errorf("could not marshal greeting %w", err)
