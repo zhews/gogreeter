@@ -1,6 +1,7 @@
 package greeter
 
 import (
+	"context"
 	"fmt"
 	"testing"
 )
@@ -27,9 +28,10 @@ func TestGreet(t *testing.T) {
 			expectedOutput: "Hello World!",
 		},
 	}
+	ctx := context.Background()
 	for _, testCase := range testCases {
 		t.Run(fmt.Sprintf("Name: %s", testCase.name), func(tc *testing.T) {
-			output := Greet(testCase.name)
+			output := Greet(ctx, testCase.name)
 			if testCase.expectedOutput != output {
 				tc.Fatalf("expected: %s, actual: %s", testCase.expectedOutput, output)
 			}
